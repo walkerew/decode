@@ -1,0 +1,62 @@
+#description: This program decodes a coded message
+#author: WALKER, EMILY
+#date: February.22.2018
+
+#functions
+
+#strip function gets rid of special characters
+def strip(encoded):
+    reduced_encoded = ""
+    for i in encoded:
+        if i >= "a" and i <= "z":
+            reduced_encoded += i
+    return reduced_encoded
+
+#decode function checks offsets until one contains the keyword
+def decode(reduced_encoded):
+    keyword = str(raw_input("Enter the code key: "))
+    for i in range(1,26):
+        offset = i
+        #intializing a null string, "decoded", to put the offset string into
+        decoded = ""
+        for j in range(len(reduced_encoded)):
+            #takes the ordinal of the string, letter by letter
+            ordinal = ord(reduced_encoded[j])
+            offset_ord = ordinal + offset
+            #if the offset is greater than 122, letter "z",
+            #it needs to loop back around to ordinal 97, letter "a"
+            if offset_ord > 122:
+                offset_ord = offset_ord - 122 + 96
+            #converts the ordinals back to characters
+            offset_char = chr(offset_ord)
+            decoded += offset_char
+        #checks for the keyword in the decoded string
+        if keyword in decoded:
+            final_decoded = decoded
+            print
+            print "Offset: ", offset
+            break
+    return final_decoded
+
+
+#main program begins here
+
+encoded = str(raw_input("Enter the encoded string: "))
+#encoded = "Vy$%*zHe>>(sjD^pW $%qNcj%$Ae"
+#makes the string lower case
+encoded = encoded.lower()
+print "Lower case the string is: ", encoded
+print
+#calls strip function to get rid of special characters
+reduced_encoded = strip(encoded)
+print "With the specials stripped out the string is: ", reduced_encoded
+print
+#calls decode function to check offsets 1-25 until one contains the keyword
+decoded = decode(reduced_encoded)
+print
+print "The decoded string is: ", decoded
+print
+#end program
+
+        
+
